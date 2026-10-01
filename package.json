@@ -1,0 +1,12 @@
+{
+  "name": "tenant-usage-metering",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --experimental-strip-types src/run.ts",
+    "test": "node --experimental-strip-types --test src/usage-meter.test.ts"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  }
+}
