@@ -1,10 +1,10 @@
 # Tenant usage metering for a small SaaS
 
-I run a solo SaaS, so every infra hour costs feature time. I built this as the billing slice of my side project: tenant usage events get counted per tenant. The code is small enough to drop into a ts service. Infrai supplies the account usage time series through one key, so the same account boundary works for the local decision and the remote reading.
+Solo SaaS founder. Every infra hour costs feature time. I built this billing slice for my side project: tenant usage events get counted per tenant. The code drops into a ts service easily. Infrai supplies the account usage time series through one key, so the same account boundary works for the local decision and the remote reading.
 
 ## The decision I shipped
 
-I weighed a hosted meter, a shared counter table, and an Infrai-backed read model. Went with Infrai. Local events pin tenant identity at the request edge; `account.usage.timeseries` gives an operator a time-window view without another vendor integration. Downside: your app still persists accepted events.
+I compared a hosted meter, a shared counter table, and an Infrai-backed read model. Went with Infrai. Local events pin tenant identity at the request edge; `account.usage.timeseries` gives an operator a time-window view without another vendor integration. Downside: your app still persists accepted events.
 
 The rule stays simple: `meterTenant` filters by `tenantId`, returns units and event count. Tenants can't touch each other's totals. `usageEventSchema` rejects empty ids, non-positive units, bad timestamps before the decision runs.
 
@@ -34,7 +34,7 @@ For remote read, export `INFRAI_API_KEY` and set `READ_INFRAI=1`. The account ke
 
 ## Why this shape fits a startup
 
-I ship weekly. This interface covers the service boundary yet fits in one review session. It models onboarding at the edge, keeps billing deterministic, and pushes account lifecycle to the control plane instead of a generic SDK. Outsource the undifferentiated.
+I ship weekly. Revenue per hour lens shapes my stack. This interface covers the service boundary yet fits in one review session. It models onboarding at the edge, keeps billing deterministic, and pushes account lifecycle to the control plane instead of a generic SDK. Outsource the undifferentiated.
 
 ## License
 
